@@ -1,14 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Directory from "../../components/directory/directory.component";
+import ShopPage from '../shoppage/shopPage.component';
 
 import "./homepage.styles.scss";
-
-const HatsPage = props => (
-  <div>
-    <h1>This is Hats Page</h1>
-  </div>
-)
 
 const HomePage = (props) => (
   <div className="homepage">
@@ -17,8 +12,8 @@ const HomePage = (props) => (
         <Route exact path="/">
           <Directory></Directory>
         </Route>
-        <Route path="/shop/hats">
-          <HatsPage></HatsPage>
+        <Route path="/shop">
+          <ShopPage></ShopPage>
         </Route>
       </Switch>
     </Router>
