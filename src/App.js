@@ -4,7 +4,7 @@ import { Switch, Route } from "react-router";
 import ShopPage from "./pages/shoppage/shopPage.component.jsx";
 import Header from "./components/header/header.component.jsx";
 import SignInAndSignUp from "./pages/signInAndSignUp/signInAndSignUp.component.jsx";
-import { auth } from "./Firebase/Firebase.utils.js";
+import { auth, createUserProfileDocument } from "./Firebase/Firebase.utils.js";
 
 import "./App.css";
 
@@ -13,17 +13,30 @@ class App extends React.Component {
     super();
 
     this.state = {
-      currentUser : null
+      currentUser: null,
     };
   }
 
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({currentUser: user});
-      console.log(user);
-    })
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+
+      if(userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+        
+        userRef.onSnapshot(snapShot => {
+          this.setState({
+            id: snapShot.id,
+            ...snapShot.data()
+          })
+        })
+
+        console.log(this.state)
+      } else{
+        this.setState({ currentUser: userAuth });
+      }      
+    });
   }
 
   componentWillUnmount() {
@@ -33,7 +46,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Header currentUser = {this.state.currentUser}></Header>
+        <Header currentUser={this.state.currentUser}></Header>
         <Switch>
           <Route exact path="/">
             <HomePage></HomePage>
