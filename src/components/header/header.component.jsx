@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../../Firebase/Firebase.utils";
+import { connect } from "react-redux";
+import CartIcon from "../cart-Icon/cart-icon.component";
 
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 
@@ -27,8 +29,15 @@ const Header = ({ currentUser }) => (
           SIGN IN
         </Link>
       )}
+      <CartIcon></CartIcon>
     </div>
   </div>
 );
 
-export default Header;
+//Here the state is our root reducer, so we are getting the user propes from root which is userReducer and from that we are fetching the currentUser prop
+const mapStateToProps = state => ({
+  currentUser : state.user.currentUser
+});
+
+// connect is a higher order fun which takes in a react component and returns a component which is capable of using redux 
+export default connect(mapStateToProps)(Header);
