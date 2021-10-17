@@ -1,6 +1,7 @@
 import React from "react";
 import HomePage from "./pages/homepage/homepage.component.jsx";
-import { Switch, Route, Redirect } from "react-router";
+import { Switch, Redirect } from "react-router";
+import { Route } from "react-router-dom";
 import ShopPage from "./pages/shoppage/shopPage.component.jsx";
 import Header from "./components/header/header.component.jsx";
 import SignInAndSignUp from "./pages/signInAndSignUp/signInAndSignUp.component.jsx";
@@ -50,8 +51,9 @@ class App extends React.Component {
           <Route exact path="/">
             <HomePage></HomePage>
           </Route>
-          <Route path="/shop">
-            <ShopPage></ShopPage>
+          {/* using component prop of route tag as without it the child component i.e shop page here does not get the match props */}
+          <Route path="/shop" component={ShopPage}>
+            {/* <ShopPage></ShopPage> */}
           </Route>
           <Route exact path="/checkout">
             <CheckOut></CheckOut>
