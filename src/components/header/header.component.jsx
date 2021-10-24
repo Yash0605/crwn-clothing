@@ -7,38 +7,39 @@ import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import { createStructuredSelector } from "reselect";
 import { selectCartHidden } from "../../redux/cart/cart.selector";
 import { selectCurrentUser } from "../../redux/user/user.selector";
+import { OptionsContainer,LogoContainer,HeaderContainer,LinkOptionContainer, DivOptionContainer } from "./header.styles";
 
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 
 import "./header.styles.scss";
 
 const Header = ({ currentUser,hidden }) => (
-  <div className="header">
-    <Link className="logo-container" to="/">
+  <HeaderContainer>
+    <LogoContainer to="/">
       <Logo className="logo"></Logo>
-    </Link>
-    <div className="options">
-      <Link className="option" to="/shop">
+    </LogoContainer>
+    <OptionsContainer>
+      <LinkOptionContainer to="/shop">
         SHOP
-      </Link>
-      <Link className="option" to="/contact">
+      </LinkOptionContainer>
+      <LinkOptionContainer to="/contact">
         CONTACT
-      </Link>
+      </LinkOptionContainer>
       {currentUser ? (
-        <div className="option" onClick={() => auth.signOut()}>
+        <DivOptionContainer onClick={() => auth.signOut()}>
           SIGN OUT
-        </div>
+        </DivOptionContainer>
       ) : (
-        <Link className="option" to="/signIn">
+        <LinkOptionContainer to="/signIn">
           SIGN IN
-        </Link>
+        </LinkOptionContainer>
       )}
       <CartIcon></CartIcon>
-    </div>
+    </OptionsContainer>
     {
       hidden ? null : <CartDropdown></CartDropdown>
     }
-  </div>
+  </HeaderContainer>
 );
 
 //Here the state is our root reducer, so we are getting the user propes from root which is userReducer and from that we are fetching the currentUser prop
